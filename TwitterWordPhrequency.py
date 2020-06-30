@@ -26,7 +26,7 @@ target_timeline = twit.getUserTimeline(sys.argv[1], count)
 
 word_dict = {}
 rt_list = []
-
+hashtags = []
 
 for id in target_timeline:
     if id['text'].startswith('RT'):
@@ -35,6 +35,8 @@ for id in target_timeline:
     
     curr_string = id['text'].split()
     for word in curr_string:
+        if word.startswith('#'):
+            hashtags.append(word)
         if word not in word_dict:
             word_dict[word] = 1
             print(f'{word}: {word_dict[word]}')
@@ -45,6 +47,7 @@ for id in target_timeline:
 
 for rt in rt_list:
     print(rt)
+print(hashtags)
 
 # print(f'{target_name} {target_id} {last_status}')
 # print(f'{target["status"]["id"]}')
