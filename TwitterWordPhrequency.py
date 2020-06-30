@@ -2,6 +2,7 @@
 
 import twitfunctions as twit
 import datetime as dt
+import pandas as pd
 import json
 import sys
 import re
@@ -16,13 +17,14 @@ if len(sys.argv) != 2:
     raise ValueError('Please enter a twitter handle to analyze')
 
 # Grab target information
-target = twit.getUserInfobyName(sys.argv[1])
-target_name = target['name']
-target_id = target['id']
+target = sys.argv[1]
+target_dict = twit.getUserInfobyName(target)
+target_name = target_dict['name']
+target_id = target_dict['id']
 
 # Grab the latest sample of the target timeline
 count = 150
-target_timeline = twit.getUserTimeline(sys.argv[1], count)
+target_timeline = twit.getUserTimeline(target, count)
 
 word_dict = {}
 rt_list = []
