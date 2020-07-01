@@ -23,7 +23,7 @@ target_name = target_dict['name']
 target_id = target_dict['id']
 
 # Grab the latest sample of the target timeline
-count = 150
+count = 200
 target_timeline = twit.getUserTimeline(target, count)
 
 word_dict = {}
