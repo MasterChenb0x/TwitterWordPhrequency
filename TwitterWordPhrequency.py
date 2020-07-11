@@ -7,24 +7,28 @@ import json
 import sys
 import re
 import nltk
+import os
+from os import path
 
-def retweet_capture(tweet: str) -> dict:
-    """
-    Separates RT tweets into it's own dictionary
-    """
 
 if len(sys.argv) != 2:
     raise ValueError('Please enter a twitter handle to analyze')
 
+count = 200
+
 # Grab target information
 target = sys.argv[1]
-target_dict = twit.getUserInfobyName(target)
-target_name = target_dict['name']
-target_id = target_dict['id']
-
-# Grab the latest sample of the target timeline
-count = 200
-target_timeline = twit.getUserTimeline(target, count)
+try:
+    with open(f'{target}.json', 'r') as timeline_file:
+        timeline_json = json.load(timeline_file)
+    timeline_file.close()
+    timeline_json = json.dumps(timeline_json, indent=4)
+except IOError:
+    # Grab the latest sample of the target timeline
+    target_dict = twit.getUserInfobyName(target)
+    target_name = target_dict['name']
+    target_id = target_dict['id']
+    target_timeline = twit.getUserTimeline(target, count)
 
 word_dict = {}
 rt_list = []
