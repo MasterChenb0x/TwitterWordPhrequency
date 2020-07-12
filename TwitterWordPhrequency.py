@@ -33,14 +33,14 @@ target_id = target_dict['id']
 # Grab timeline from file OR Twitter if new
 count = 200
 try: 
-    with open(f'{target}_timeline.txt', 'r') as timeline_file:
+    with open(f'{target}_timeline.json', 'r') as timeline_file:
         timeline_json = json.load(timeline_file)
     timeline_file.close()
     timeline_json = json.dumps(timeline_json, indent=4)
 except IOError:
     target_timeline_dict = twit.getUserTimeline(target, count)
     timeline_json = json.dumps(target_timeline_dict, indent=4)
-    with open(f'{target}_timeline.txt' 'w') as timeline_file:
+    with open(f'{target}_timeline.json', 'w') as timeline_file:
         json.dump(target_timeline_dict, timeline_file)
     timeline_file.close()
 
