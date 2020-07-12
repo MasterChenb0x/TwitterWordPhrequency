@@ -12,13 +12,14 @@ import os
 if len(sys.argv) != 2:
     raise ValueError('Please enter a twitter handle to analyze')
 
-# Grab target information from file OR from Twitter if new
 target = sys.argv[1]
+
+# Grab target information from file OR from Twitter if new
 try:
     with open(f'{target}.json', 'r') as target_file:
-        target_json = json.load(target_file)
+        target_dict = json.load(target_file)
     target_file.close()
-    target_json = json.dumps(target_json, indent=4)
+    target_json = json.dumps(target_dict, indent=4)
 except IOError:
     target_dict = twit.getUserInfobyName(target)
     target_json = json.dumps(target_dict, indent=4)
@@ -26,17 +27,14 @@ except IOError:
         json.dump(target_dict, target_file)
     target_file.close()
 
-target_name = target_dict['name']
-target_id = target_dict['id']
-
 
 # Grab timeline from file OR Twitter if new
 count = 200
 try: 
     with open(f'{target}_timeline.json', 'r') as timeline_file:
-        timeline_json = json.load(timeline_file)
+        target_timeline_dict = json.load(timeline_file)
     timeline_file.close()
-    timeline_json = json.dumps(timeline_json, indent=4)
+    timeline_json = json.dumps(target_timeline_dict, indent=4)
 except IOError:
     target_timeline_dict = twit.getUserTimeline(target, count)
     timeline_json = json.dumps(target_timeline_dict, indent=4)
@@ -70,5 +68,3 @@ for rt in rt_list:
     print(rt)
 print(hashtags)
 
-# print(f'{target_name} {target_id} {last_status}')
-# print(f'{target["status"]["id"]}')
