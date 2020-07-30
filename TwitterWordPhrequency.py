@@ -63,6 +63,11 @@ for id in target_timeline_dict:
             word_dict[word] += 1
             print(f'{word}: {word_dict[word]}')
 
+sort_words = sorted(word_dict.items(), key=lambda x: x[1], reverse=True)
+for i in sort_words:
+    print(i[0], i[1])
+
+
 for rt in rt_list:
     print(rt)
 print(hashtags)
