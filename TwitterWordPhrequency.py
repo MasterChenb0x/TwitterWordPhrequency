@@ -7,6 +7,7 @@ import json
 import sys
 import re
 import os
+import string
 
 
 if len(sys.argv) != 2:
@@ -14,7 +15,7 @@ if len(sys.argv) != 2:
 
 target = sys.argv[1]
 
-# Grab target information from file OR from Twitter if new
+# Grab target information from file OR Twitter if new
 try:
     with open(f'{target}.json', 'r') as target_file:
         target_dict = json.load(target_file)
@@ -28,7 +29,7 @@ except EnvironmentError:
     target_file.close()
 
 
-# Grab timeline from file OR Twitter if new
+# Grab target timeline from file OR Twitter if new
 count = 200
 try: 
     with open(f'{target}_timeline.json', 'r') as timeline_file:
@@ -42,31 +43,38 @@ except EnvironmentError:
         json.dump(target_timeline_dict, timeline_file)
     timeline_file.close()
 
-
+# data holders for sanitization and scraping
+links = []
 word_dict = {}
 rt_list = []
 hashtags = []
 
+table = str.maketrans('', '', string.punctuation)
 for id in target_timeline_dict:
-    if id['text'].startswith('RT'):
-        rt_list.append(id['text'])
+    text = id['text']
+    text = text.lower()
+    if text.startswith('rt'):
+        rt_list.append(text)
         pass
     
-    curr_string = id['text'].split()
+    curr_string = text.split()
     for word in curr_string:
+        if 'http:' in word or 'https:' in word:
+            links.append(word)
         if word.startswith('#'):
             hashtags.append(word)
+        word = word.translate(table)
         if word not in word_dict:
             word_dict[word] = 1
-            #print(f'{word}: {word_dict[word]}')
         else:
             word_dict[word] += 1
-            #print(f'{word}: {word_dict[word]}')
+
 
 sort_words = sorted(word_dict.items(), key=lambda x: x[1], reverse=True)
 for i in sort_words:
     print(i[0], i[1])
 
+print(links)
 """
 for rt in rt_list:
     print(rt)
