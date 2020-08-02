@@ -48,11 +48,16 @@ links = []
 word_dict = {}
 rt_list = []
 hashtags = []
+word_count = 0
 
 table = str.maketrans('', '', string.punctuation)
 for id in target_timeline_dict:
     text = id['text']
     text = text.lower()
+    curr_string = text.split()
+    for w in curr_string:
+        word_count += 1
+
     if text.startswith('rt'):
         rt_list.append(text)
         pass
@@ -75,6 +80,7 @@ for i in sort_words:
     print(i[0], i[1])
 
 print(links)
+
 """
 for rt in rt_list:
     print(rt)
