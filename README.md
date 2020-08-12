@@ -12,7 +12,7 @@ export PATH=${HOME}/.local/bin:$PATH
 
 ## About
 
-TwitterWordPhrequency was presented by [https://github.com/MasterChenb0x](MasterChen) at DEF CON 28 SAFEMODE: Recon Village
+TwitterWordPhrequency was presented by [MasterChen](https://github.com/MasterChenb0x) at DEF CON 28 SAFEMODE: Recon Village
 
 [Video](https://www.youtube.com/watch?v=rycf7OLJznU)
 
